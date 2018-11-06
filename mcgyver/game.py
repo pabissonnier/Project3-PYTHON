@@ -16,8 +16,19 @@ def main():
     """ Initialisation of the character """
     mcgyver = Character(1, 0)
     
+    continue_game = True
 
+    """ Game Starts """
+    while continue_game:
+        action = input("Make McGyver move by using 'z', 's', 'w', or 'q' :")
+        action.lower()
 
+        try:
+            assert action == 'z' or action == 's' or action == 'w' or action == 'q'
+        except AssertionError:
+            print("Wrong value")
+        
+        
 
 if __name__ == "__main__":
     main()
