@@ -4,6 +4,7 @@
 from level import Level
 from character import Character
 
+
 def main():
     print("Welcome !")
     print("Help McGyver to escape the labyrinth !")
@@ -20,15 +21,10 @@ def main():
 
     """ Game Starts """
     while continue_game:
-        action = input("Make McGyver move by using 'z', 's', 'w', or 'q' :")
-        action.lower()
 
-        try:
-            assert action == 'z' or action == 's' or action == 'w' or action == 'q'
-        except AssertionError:
-            print("Wrong value")
         
-        
+        mcgyver.move(level)
+
 
 if __name__ == "__main__":
     main()
