@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from level import Level
-
+from character import Character
 
 def main():
     print("Welcome !")
@@ -13,9 +13,9 @@ def main():
     level = Level()
     level.map_generator("file_map.txt")
 
-
-
-
+    """ Initialisation of the character """
+    mcgyver = Character(1, 0)
+    
 
 
 
