@@ -3,6 +3,7 @@
 
 from level import Level
 from character import Character
+from objects import Objects
 
 
 def main():
@@ -10,7 +11,7 @@ def main():
     print("Help McGyver to escape the labyrinth !")
     print("Grab the 3 objects and find the exit to beat the guardian...")
 
-    """ Creation of the labyrinth"""
+    """ Creation  of the labyrinth"""
     level = Level()
     level.map_generator()
 
@@ -25,13 +26,7 @@ def main():
         mcgyver.move()
         mcgyver.mac_out()
 
-    answer = input("Do you want to play again ? y/n ")
-    answer.lower()
-    if answer == 'y':
-        continue_game == True
-    elif answer == 'n':
-        continue_game == False
-
+    print("Bye bye !!")
 
 
 if __name__ == "__main__":

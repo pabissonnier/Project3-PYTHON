@@ -48,6 +48,11 @@ class Character:
     def mac_out(self):
         if self.pos_y == 13 and self.pos_x == 14:
             print("WELL DONE !! You got out !")
-            continue_game = False
+            answer = input("Do you want to play again ? y/n ")
+            answer.lower()
+            if answer == 'y':
+                return continue_game == True
+            elif answer == 'n':
+                return False
 
 
