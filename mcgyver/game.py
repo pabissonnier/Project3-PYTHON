@@ -12,17 +12,17 @@ def main():
 
     """ Creation of the labyrinth"""
     level = Level()
-    level.map_generator("file_map.txt")
+    level.map_generator()
 
     """ Initialisation of the character """
-    mcgyver = Character(1, 0)
+    mcgyver = Character(1, 0, level)
     
     continue_game = True
 
     """ Game Starts """
     while continue_game:
 
-        mcgyver.move(level)
+        mcgyver.move()
 
 
 if __name__ == "__main__":

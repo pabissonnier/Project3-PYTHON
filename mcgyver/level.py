@@ -1,22 +1,24 @@
 class Level:
     def __init__(self):
-        self.labyrinth = None
+        self.file = "file_map.txt"
+        self.map = self.map_generator()
 
-    def map_generator(self, file_to_open):
+    def map_generator(self):
         """ Loading map from file and put it into a double list """
-        with open(file_to_open, 'r') as file:
-            level = []
+        with open(self.file, 'r') as file:
+            level_map = []
             for line in file:
                 level_line = []
                 for case in line:
                     if case != '\n':
                         level_line.append(case)
-                level.append(level_line)
+                level_map.append(level_line)
+            return level_map
                 
-    def check_new_coors(self, labyrinth, x, y):
+    def check_new_coors(self, x, y):
         if not 0 <= x <= 14 and not 0 <= y <= 14:
             return False
-        if labyrinth[y][x] == 'X':
+        if self.map[y][x] == 'X':
             return False
         return True
 

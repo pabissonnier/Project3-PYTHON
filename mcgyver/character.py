@@ -1,10 +1,14 @@
+from level import Level
+
+
 class Character:
 
-    def __init__(self, ini_x, ini_y):
+    def __init__(self, ini_x, ini_y, labyrinth):
         self.pos_x = ini_x
         self.pos_y = ini_y
+        self.level = labyrinth
 
-    def move(self, level):
+    def move(self):
 
         """We establish the direction """
         direction = input("Make McGyver move by using 'z', 's', 'w', or 'q' :")
@@ -16,27 +20,30 @@ class Character:
             print("Wrong value")
 
         """ Direction right """
-        if direction == 's' and level.check_new_coors(level, self.pos_x + 1, self.pos_y):
-            level[self.pos_y][self.pos_x] = ' '
+        if direction == 's' and self.level.check_new_coors(self.pos_x + 1, self.pos_y):
+            self.level.map[self.pos_y][self.pos_x] = ' '
             self.pos_x += 1
-            level.level[self.pos_y][self.pos_x] = 'M'
+            self.level.map[self.pos_y][self.pos_x] = 'M'
             
         """ Direction up """
-        if direction == 'z' and level.check_new_coors(level, self.pos_x, self.pos_y - 1):
-            level[self.pos_y][self.pos_x] = ' '
+        if direction == 'z' and self.level.check_new_coors(self.pos_x, self.pos_y - 1):
+            self.level.map[self.pos_y][self.pos_x] = ' '
             self.pos_y -= 1
-            level[self.pos_y][self.pos_x] = 'M'
+            self.level.map[self.pos_y][self.pos_x] = 'M'
             
         """ Direction left """
-        if direction == 'q' and level.check_new_coors(level, self.pos_x - 1, self.pos_y):
-            level[self.pos_y][self.pos_x] = ' '
+        if direction == 'q' and self.level.check_new_coors(self.pos_x - 1, self.pos_y):
+            self.level.map[self.pos_y][self.pos_x] = ' '
             self.pos_x -= 1
-            level[self.pos_y][self.pos_x] = 'M'
+            self.level.map[self.pos_y][self.pos_x] = 'M'
             
         """ Direction down """
-        if direction == 'w' and level.check_new_coors(level, self.pos_x, self.pos_y + 1):
-            level[self.pos_y][self.pos_x] = ' '
+        if direction == 'w' and self.level.check_new_coors(self.pos_x, self.pos_y + 1):
+            self.level.map[self.pos_y][self.pos_x] = ' '
             self.pos_y += 1
-            level[self.pos_y][self.pos_x] = 'M'
+            self.level.map[self.pos_y][self.pos_x] = 'M'
+
+        else:
+            print("Invalid move")
                 
-        return level
+        return self.level.map
