@@ -22,15 +22,11 @@ class Level:
             return False
         return True
 
+    def map_printer(self):
+        # Showing map like written in the .txt
+        for line in self.map:
+            print(line)
 
 
 
-
-"""def map_printer(self, level):
-    #Showing map like written in the .txt
-    for i in range(level[x]):
-
-    show_map_lines = "".join(level)
-    show_map = "\n".join(show_map_lines)
-    print(show_map)"""
 

@@ -1,6 +1,3 @@
-from level import Level
-
-
 class Character:
 
     def __init__(self, ini_x, ini_y, labyrinth):
@@ -47,3 +44,10 @@ class Character:
             print("Invalid move")
                 
         return self.level.map
+
+    def mac_out(self):
+        if self.pos_y == 13 and self.pos_x == 14:
+            print("WELL DONE !! You got out !")
+            continue_game = False
+
+
