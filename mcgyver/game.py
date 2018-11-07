@@ -22,7 +22,6 @@ def main():
     """ Game Starts """
     while continue_game:
 
-        
         mcgyver.move(level)
 
 
