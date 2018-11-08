@@ -23,9 +23,12 @@ class Level:
         return True
 
     def map_printer(self):
-        # Showing map like written in the .txt
+        """ Showing map like written in the .txt"""
         for line in self.map:
             print(line)
+
+    def map_reset(self):
+        """ Resetting the map before and after the game"""
 
 
 
