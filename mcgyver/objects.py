@@ -21,5 +21,5 @@ class Objects:
         else:
             return self.rand_position()
 
-
-
+    def init_objects(self, labyrinth):
+        pass

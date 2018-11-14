@@ -1,3 +1,7 @@
+from character import Character
+from objects import Objects
+
+
 class Level:
     def __init__(self):
         self.file = "file_map.txt"
@@ -22,14 +26,24 @@ class Level:
             return False
         return True
 
-    def map_printer(self):
+    def map_printer(self): # Print the map twice in each style
         """ Showing map like written in the .txt"""
         for line in self.map:
-            print(line)
+            for case in line:
+                print(case, end=' ')
+            print()
 
-    def map_reset(self):
+    @staticmethod
+    def map_reset():
         """ Resetting the map before and after the game"""
-
+        level = Level()
+        level.map_generator()
+        Objects('N', level)
+        Objects('T', level)
+        Objects('E', level)
+        mcgyver = Character(0, 1, level)
+        mcgyver.items = 0
+        return level, mcgyver
 
 
 
