@@ -5,6 +5,7 @@ image_brick = "ressource/brick.png"
 image_floor = "ressource/floor.jpg"
 image_mcgyver = "ressource/mcgyver.png"
 image_guardian = "ressource/guardian.png"
+image_background = "ressource/image_background.png"
 
 # Values
 sprites = 15

@@ -36,24 +36,21 @@ class Level:
             print()'''
 
     def map_draw(self, screen):
-        brick = pygame.image.load(image_brick).convert()
-        floor = pygame.image.load(image_floor).convert()
+        brick = pygame.image.load(image_brick)
+        floor = pygame.image.load(image_floor)
 
         num_line = 0
         for line in self.map:
             num_case = 0
             for sprite in line:
-                x = num_line * sprite_size
-                y = num_case * sprite_size
+                x = num_case * sprite_size
+                y = num_line * sprite_size
                 if sprite == 'X':
                     screen.blit(brick, (x, y))
                 elif sprite == ' ':
                     screen.blit(floor, (x, y))
                 num_case += 1
             num_line += 1
-
-
-
 
     @staticmethod
     def map_reset():
@@ -64,8 +61,9 @@ class Level:
         Objects('T', level)
         Objects('E', level)
         mcgyver = Character(0, 1, image_mcgyver, level)
+        guardian = Character(13, 14, image_guardian, level)
         mcgyver.items = 0
-        return level, mcgyver
+        return level, mcgyver, guardian
 
 
 
