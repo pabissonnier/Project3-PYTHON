@@ -1,5 +1,7 @@
 from character import Character
 from objects import Objects
+from constants import *
+import pygame
 
 
 class Level:
@@ -26,12 +28,32 @@ class Level:
             return False
         return True
 
-    def map_printer(self): # Print the map twice in each style
+    '''def map_printer(self):
         """ Showing map like written in the .txt"""
         for line in self.map:
             for case in line:
                 print(case, end=' ')
-            print()
+            print()'''
+
+    def map_draw(self, screen):
+        brick = pygame.image.load(image_brick).convert()
+        floor = pygame.image.load(image_floor).convert()
+
+        num_line = 0
+        for line in self.map:
+            num_case = 0
+            for sprite in line:
+                x = num_line * sprite_size
+                y = num_case * sprite_size
+                if sprite == 'X':
+                    screen.blit(brick, (x, y))
+                elif sprite == ' ':
+                    screen.blit(floor, (x, y))
+                num_case += 1
+            num_line += 1
+
+
+
 
     @staticmethod
     def map_reset():
@@ -41,7 +63,7 @@ class Level:
         Objects('N', level)
         Objects('T', level)
         Objects('E', level)
-        mcgyver = Character(0, 1, level)
+        mcgyver = Character(0, 1, image_mcgyver, level)
         mcgyver.items = 0
         return level, mcgyver
 

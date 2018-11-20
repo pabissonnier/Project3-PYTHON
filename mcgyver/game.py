@@ -2,21 +2,32 @@
 # coding: utf-8
 
 from level import Level
+from constants import *
+
+import pygame
+from pygame import *
 
 
 def main():
-    print("Welcome !")
-    print("Help McGyver to escape the labyrinth !")
-    print("Grab the 3 objects and find the exit to beat the guardian...")
+    pygame.init()
+    screen = pygame.display.set_mode((sprites*sprite_size, sprites*sprite_size))
+    pygame.display.set_caption(title_welcome)
 
     level, mcgyver = Level.map_reset()
+    
+
+
+
+
 
     continue_game = True
 
     while continue_game:
 
+        pygame.time.Clock().tick(30)
+
         # Game starts
-        level.map_printer()
+        level.map_draw(screen)
         mcgyver.move()
 
         # McGyver gets an object
