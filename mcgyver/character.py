@@ -5,11 +5,10 @@ from constants import *
 
 class Character:
 
-    def __init__(self, ini_x, ini_y, image, labyrinth):
+    def __init__(self, ini_x, ini_y, labyrinth):
         self.pos_x = ini_x
         self.pos_y = ini_y
         self.level = labyrinth
-        self.image = pygame.image.load(image).convert_alpha()
         self.items = 0
         self.end_game = False
         self.win = False

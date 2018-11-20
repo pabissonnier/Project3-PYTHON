@@ -47,8 +47,12 @@ def main():
                     level = Level()
                     level.map_generator()
                     level.map_draw(screen)
-                    mcgyver = Character(0, 1, image_mcgyver, level)
-                    guardian = Character(13, 14, image_guardian, level)
+                    mcgyver = Character(0, 1, level)
+                    im_mcgyver = pygame.image.load(image_mcgyver).convert_alpha()
+                    screen.blit(im_mcgyver, (0 * sprite_size, 1 * sprite_size))
+                    guardian = Character(13, 14, level)
+                    im_guardian = pygame.image.load(image_guardian).convert_alpha()
+                    screen.blit(im_guardian, (14 * sprite_size, 13 * sprite_size))
                     pygame.display.flip()
 
         while continue_game:
