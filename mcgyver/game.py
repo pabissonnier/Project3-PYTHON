@@ -13,6 +13,8 @@ from character import Character
 def main():
     pygame.init()
     screen = pygame.display.set_mode((sprites*sprite_size, sprites*sprite_size))
+    icon = pygame.image.load(image_mcgyver)
+    pygame.display.set_icon(icon)
     pygame.display.set_caption(title_welcome)
 
     game_activated = True
