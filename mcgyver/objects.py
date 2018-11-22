@@ -1,12 +1,17 @@
 import random
+from constants import *
+import pygame
 
 
 class Objects:
 
-    def __init__(self, name, labyrinth):
+    def __init__(self, name, image, labyrinth):
         self.name = name
         self.level = labyrinth
+        self.im = pygame.image.load(image).convert_alpha()
         self.obj_x, self.obj_y = self.rand_position()
+        self.x = self.obj_x * sprite_size
+        self.y = self.obj_y * sprite_size
 
     def rand_position(self):
         """ Randomly placing the objects """
@@ -21,5 +26,5 @@ class Objects:
         else:
             return self.rand_position()
 
-    def init_objects(self, labyrinth):
-        pass
+    def display(self, window):
+        window.blit(self.im, (self.x, self.y))

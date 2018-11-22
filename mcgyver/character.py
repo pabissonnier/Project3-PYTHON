@@ -5,35 +5,36 @@ from constants import *
 
 class Character:
 
-    def __init__(self, ini_x, ini_y, labyrinth):
+    def __init__(self, ini_x, ini_y, image, labyrinth):
         self.pos_x = ini_x
         self.pos_y = ini_y
+        self.x = self.pos_x * sprite_size
+        self.y = self.pos_y * sprite_size
         self.level = labyrinth
         self.items = 0
+        self.visual = pygame.image.load(image).convert_alpha()
         self.end_game = False
         self.win = False
 
-    def move(self):
-        """We establish the direction """
+    def display(self, window):
+        window.blit(self.visual, (self.x, self.y))
 
-        """direction = input("Make McGyver move by using 'z', 's', 'w', or 'q' :")
-        direction.lower()"""
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                if event.key == K_s and self.level.check_new_coors(self.pos_x + 1, self.pos_y):
-                    self.do_move((self.pos_x + 1) * sprite_size, self.pos_y)
-                elif event.key == K_z and self.level.check_new_coors(self.pos_x, self.pos_y - 1):
-                    self.do_move(self.pos_x, (self.pos_y - 1) * sprite_size)
-                elif event.key == K_q and self.level.check_new_coors((self.pos_x - 1) * sprite_size, self.pos_y):
-                    self.do_move(self.pos_x - 1, self.pos_y)
-                elif event.key == K_w and self.level.check_new_coors(self.pos_x, (self.pos_y + 1) * sprite_size):
-                    self.do_move(self.pos_x, self.pos_y + 1)
-                else:
-                    pass
+    def move(self, direction):
+        """We establish the direction """
+        if direction == "right" and self.level.check_new_coors(self.pos_x + 1, self.pos_y):
+            self.do_move(self.pos_x + 1, self.pos_y)
+        elif direction == "up" and self.level.check_new_coors(self.pos_x, self.pos_y - 1):
+            self.do_move(self.pos_x, self.pos_y - 1)
+        elif direction == "left" and self.level.check_new_coors(self.pos_x - 1, self.pos_y):
+            self.do_move(self.pos_x - 1, self.pos_y)
+        elif direction == "down" and self.level.check_new_coors(self.pos_x, self.pos_y + 1):
+            self.do_move(self.pos_x, self.pos_y + 1)
+        else:
+            pass
 
     def do_move(self, new_x, new_y):
-        self.get_object(new_x, new_y)
-        self.mac_out(new_x, new_y)
+        #self.get_object(new_x, new_y)
+        #self.mac_out(new_x, new_y)
         self.level.map[self.pos_y][self.pos_x] = ' '
         self.pos_x = new_x
         self.pos_y = new_y

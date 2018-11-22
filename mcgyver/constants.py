@@ -6,6 +6,10 @@ image_floor = "ressource/floor.jpg"
 image_mcgyver = "ressource/mcgyver.png"
 image_guardian = "ressource/guardian.png"
 image_background = "ressource/image_background.png"
+image_ether = "ressource/ether.png"
+image_needle = "ressource/aiguille.png"
+image_tube = "ressource/tube_plastique.png"
+image_seringue = "ressource/seringue.png"
 
 # Values
 sprites = 15
