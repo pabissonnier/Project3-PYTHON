@@ -1,6 +1,7 @@
 import random
 from constants import *
 import pygame
+from pygame.locals import *
 
 
 class Objects:
@@ -28,3 +29,5 @@ class Objects:
 
     def display(self, window):
         window.blit(self.im, (self.x, self.y))
+
+

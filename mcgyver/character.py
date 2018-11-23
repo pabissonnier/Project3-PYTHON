@@ -1,6 +1,6 @@
 import pygame
-from pygame.locals import *
 from constants import *
+from objects import Objects
 
 
 class Character:
@@ -14,6 +14,7 @@ class Character:
         self.items = 0
         self.visual = pygame.image.load(image).convert_alpha()
         self.end_game = False
+        self.can_exit = True
         self.win = False
 
     def display(self, window):
@@ -27,14 +28,15 @@ class Character:
             self.do_move(self.pos_x, self.pos_y - 1)
         elif direction == "left" and self.level.check_new_coors(self.pos_x - 1, self.pos_y):
             self.do_move(self.pos_x - 1, self.pos_y)
+            self.can_exit = True
         elif direction == "down" and self.level.check_new_coors(self.pos_x, self.pos_y + 1):
             self.do_move(self.pos_x, self.pos_y + 1)
         else:
             pass
 
     def do_move(self, new_x, new_y):
-        #self.get_object(new_x, new_y)
-        #self.mac_out(new_x, new_y)
+        self.get_object(new_x, new_y)
+        self.mac_out(new_x, new_y)
         self.level.map[self.pos_y][self.pos_x] = ' '
         self.pos_x = new_x
         self.pos_y = new_y
@@ -55,6 +57,7 @@ class Character:
                 self.win = True
                 self.game_over()
             else:
+                self.can_exit = False
                 print("You need to find the 3 objects to get out !!")
 
     def game_over(self):
