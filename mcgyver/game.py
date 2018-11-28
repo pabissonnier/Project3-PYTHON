@@ -16,7 +16,7 @@ def main():
 
         # SCREEN LOADING
         pygame.init()
-        screen = pygame.display.set_mode((sprites*sprite_size, sprites*sprite_size))
+        screen = pygame.display.set_mode((sprites*sprite_size, sprites*sprite_size + 50))
         icon = pygame.image.load(image_mcgyver)
         pygame.display.set_icon(icon)
         pygame.display.set_caption(title_welcome)
@@ -29,6 +29,7 @@ def main():
 
         continue_game = True
         continue_title = True
+        continue_instructions = True
 
         # WELCOME LOOP
         while continue_title:
@@ -60,6 +61,24 @@ def main():
 
                     pygame.display.flip()
 
+        # INSTRUCTIONS LOOP
+        while continue_instructions:
+            pygame.time.Clock().tick(30)
+
+            instructions = pygame.image.load(image_instructions).convert()
+            screen.blit(instructions, (0, 0))
+
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+                    continue_title = False
+                    continue_game = False
+                    game_activated = False
+
+                elif event.type == KEYDOWN and event.key == K_RETURN:
+                    continue_instructions = False
+
         # GAME LOOP
         while continue_game:
             pygame.time.Clock().tick(30)
@@ -69,6 +88,11 @@ def main():
             level.map_draw(screen)
             screen.blit(mcgyver.visual, (mcgyver.pos_x * sprite_size, mcgyver.pos_y * sprite_size))
             screen.blit(guardian.visual, (guardian.pos_x * sprite_size, guardian.pos_y * sprite_size))
+
+            # INVENTORY
+            instructions = pygame.image.load(image_instructions).convert()
+            screen.blit(instructions, (0, 0))
+
 
             for line in level.map:
                 for case in line:
@@ -90,8 +114,7 @@ def main():
                     if event.key == K_ESCAPE:
                         continue_game = False
                     elif event.key == K_RIGHT:
-                        if mcgyver.can_exit:
-                            mcgyver.move("right")
+                        mcgyver.move("right")
                     elif event.key == K_DOWN:
                         mcgyver.move("down")
                     elif event.key == K_LEFT:
@@ -101,8 +124,17 @@ def main():
                     else:
                         print("Invalid key")
 
+            # Show inventory
+            if len(mcgyver.items) != 0:
+                pass
+
+            # Mcgyver wins or not
+            if mcgyver.mac_out(mcgyver.pos_x, mcgyver.pos_y) is False:
+                print("You lose !")
+
+
             # Leave game or not
-            if mcgyver.end_game is False and mcgyver.win is True:
+            """if mcgyver.end_game is False:
                 print("Help McGyver to escape the labyrinth !")
                 print("Grab the 3 objects and find the exit to beat the guardian...")
                 continue_game = False
@@ -111,7 +143,7 @@ def main():
                 print("GAME OVER, Bye bye !!")
                 continue_game = False
                 game_activated = False
-                pygame.quit()
+                pygame.quit()"""
 
 
 if __name__ == "__main__":

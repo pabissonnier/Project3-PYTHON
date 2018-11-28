@@ -18,3 +18,6 @@ sprite_size = 40
 # Other
 title_welcome = "Help McGyver to escape the labyrinth !"
 welcome_mac = "ressource/welcome_mac.jpg"
+out_mac = "ressource/out_mac.jpg"
+image_instructions = "ressource/instructions.png"
+image_inventory = "ressource/inventory.png"

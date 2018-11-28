@@ -1,7 +1,6 @@
 import random
 from constants import *
 import pygame
-from pygame.locals import *
 
 
 class Objects:

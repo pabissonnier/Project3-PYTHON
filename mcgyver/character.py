@@ -1,6 +1,5 @@
 import pygame
 from constants import *
-from objects import Objects
 
 
 class Character:
@@ -11,11 +10,9 @@ class Character:
         self.x = self.pos_x * sprite_size
         self.y = self.pos_y * sprite_size
         self.level = labyrinth
-        self.items = 0
+        self.items = []
         self.visual = pygame.image.load(image).convert_alpha()
         self.end_game = False
-        self.can_exit = True
-        self.win = False
 
     def display(self, window):
         window.blit(self.visual, (self.x, self.y))
@@ -28,7 +25,6 @@ class Character:
             self.do_move(self.pos_x, self.pos_y - 1)
         elif direction == "left" and self.level.check_new_coors(self.pos_x - 1, self.pos_y):
             self.do_move(self.pos_x - 1, self.pos_y)
-            self.can_exit = True
         elif direction == "down" and self.level.check_new_coors(self.pos_x, self.pos_y + 1):
             self.do_move(self.pos_x, self.pos_y + 1)
         else:
@@ -44,24 +40,31 @@ class Character:
 
     def get_object(self, x, y):
         """ The character gets an object """
-        if self.level.map[y][x] in ["E", "N", "T"]:
+        if self.level.map[y][x] in "E":
+            self.items.append("E")
+        if self.level.map[y][x] in "T":
+            self.items.append("T")
+        if self.level.map[y][x] in "N":
+            self.items.append("N")
+
+        print(self.items)
+        """if self.level.map[y][x] in ["E", "N", "T"]:
             self.items += 1
-            print("Your inventory contains", self.items, " objects.")
+            print("Your inventory contains", self.items, " objects.")"""
 
     def mac_out(self, x, y):
         """ McGyver gets out if he finds the exit"""
         if self.level.map[y][x] == "G":
-            if self.items >= 3:
-                print("Thanks to your 3 items, you have made a syringe to asleep the guardian !")
-                print("WELL DONE !! You got out !")
-                self.win = True
+            if len(self.items) >= 3:
+                print("You have made a syringe to asleep the guardian")
+                print("Well done !! You are free !!")
                 self.game_over()
+                return True
             else:
-                self.can_exit = False
-                print("You need to find the 3 objects to get out !!")
+                return False
 
     def game_over(self):
-        answer = str(input("Do you want to play again ? y/n "))
+        answer = str(input("Do you want to play again? y or n :"))
         answer.lower()
         if answer == 'y':
             self.end_game = False
