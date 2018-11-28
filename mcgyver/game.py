@@ -90,9 +90,8 @@ def main():
             screen.blit(guardian.visual, (guardian.pos_x * sprite_size, guardian.pos_y * sprite_size))
 
             # INVENTORY
-            instructions = pygame.image.load(image_instructions).convert()
-            screen.blit(instructions, (0, 0))
-
+            inventory = pygame.image.load(image_inventory).convert()
+            screen.blit(inventory, (0, 600))
 
             for line in level.map:
                 for case in line:
@@ -126,7 +125,14 @@ def main():
 
             # Show inventory
             if len(mcgyver.items) != 0:
-                pass
+                if mcgyver.items[0] == "N":
+                    screen.blit(needle.im, (193, 605))
+                if mcgyver.items[0] == "N":
+                    screen.blit(needle.im, (193, 605))
+                if mcgyver.items[0] == "N":
+                    screen.blit(needle.im, (193, 605))
+
+                pygame.display.flip()
 
             # Mcgyver wins or not
             if mcgyver.mac_out(mcgyver.pos_x, mcgyver.pos_y) is False:
