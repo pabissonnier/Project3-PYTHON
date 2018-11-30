@@ -21,6 +21,9 @@ def main():
         pygame.display.set_icon(icon)
         pygame.display.set_caption(title_welcome)
 
+        # MUSIC LOADING
+        sound_mac_theme = pygame.mixer.Sound(mac_theme)
+
         # WELCOME PAGE LOADING
         welcome = pygame.image.load(welcome_mac).convert()
         screen.blit(welcome, (100, 100))
@@ -35,14 +38,18 @@ def main():
         while continue_title:
             pygame.time.Clock().tick(30)
 
+            sound_mac_theme.play()
+
             for event in pygame.event.get():
                 if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
                     continue_title = False
                     continue_game = False
                     game_activated = False
+                    continue_instructions = False
 
                 elif event.type == KEYDOWN and event.key == K_RETURN:
                     continue_title = False
+                    sound_mac_theme.stop()
 
                     # MAP IS CREATED
                     level = Level()
@@ -72,7 +79,6 @@ def main():
 
             for event in pygame.event.get():
                 if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
-                    continue_title = False
                     continue_game = False
                     game_activated = False
 
@@ -89,10 +95,6 @@ def main():
             screen.blit(mcgyver.visual, (mcgyver.pos_x * sprite_size, mcgyver.pos_y * sprite_size))
             screen.blit(guardian.visual, (guardian.pos_x * sprite_size, guardian.pos_y * sprite_size))
 
-            # INVENTORY
-            inventory = pygame.image.load(image_inventory).convert()
-            screen.blit(inventory, (0, 600))
-
             for line in level.map:
                 for case in line:
                     if "N" in case:
@@ -102,8 +104,7 @@ def main():
                     if "E" in case:
                         screen.blit(ether.im, (ether.obj_x * sprite_size, ether.obj_y * sprite_size))
 
-            pygame.display.flip()
-
+            # GAME ACTIONS
             for event in pygame.event.get():
                 if event.type == QUIT:
                     continue_game = False
@@ -123,33 +124,36 @@ def main():
                     else:
                         print("Invalid key")
 
-            # Show inventory
-            if len(mcgyver.items) != 0:
-                if mcgyver.items[0] == "N":
-                    screen.blit(needle.im, (193, 605))
-                if mcgyver.items[0] == "N":
-                    screen.blit(needle.im, (193, 605))
-                if mcgyver.items[0] == "N":
-                    screen.blit(needle.im, (193, 605))
+            # INVENTORY DISPLAYING
+            inventory = pygame.image.load(image_inventory).convert()
+            screen.blit(inventory, (0, 600))
+            if needle.name in mcgyver.items:
+                needle.rank_in_list(mcgyver, screen)
+            elif tube.name in mcgyver.items:
+                tube.rank_in_list(mcgyver, screen)
+            elif ether.name in mcgyver.items:
+                ether.rank_in_list(mcgyver, screen)
 
-                pygame.display.flip()
+            # WINS OR DIES
+            if mcgyver.win:
+                mcgyver.game_over(screen)
+                sound_mac_theme.play()
+                if mcgyver.finish_game:
+                    pygame.quit() # Message d'erreur
+                    # Image BYE BYE
+                elif mcgyver.start_again:
+                    continue_game = False
+                    sound_mac_theme.stop()
+            elif mcgyver.end_game:
+                macgameover = pygame.image.load(mac_gameover).convert()
+                screen.blit(macgameover, (0, 0))
+                for event in pygame.event.get():
+                    if event.type == QUIT or event.type == KEYDOWN and event.key == K_SPACE:
+                        pygame.quit() # Message d'erreur
+                    elif event.type == KEYDOWN and event.key == K_RETURN:
+                        continue_game = False
 
-            # Mcgyver wins or not
-            if mcgyver.mac_out(mcgyver.pos_x, mcgyver.pos_y) is False:
-                print("You lose !")
-
-
-            # Leave game or not
-            """if mcgyver.end_game is False:
-                print("Help McGyver to escape the labyrinth !")
-                print("Grab the 3 objects and find the exit to beat the guardian...")
-                continue_game = False
-
-            elif mcgyver.end_game is True:
-                print("GAME OVER, Bye bye !!")
-                continue_game = False
-                game_activated = False
-                pygame.quit()"""
+            pygame.display.flip()
 
 
 if __name__ == "__main__":

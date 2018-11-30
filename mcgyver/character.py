@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 from constants import *
 
 
@@ -13,6 +14,9 @@ class Character:
         self.items = []
         self.visual = pygame.image.load(image).convert_alpha()
         self.end_game = False
+        self.win = False
+        self.start_again = False
+        self.finish_game = False
 
     def display(self, window):
         window.blit(self.visual, (self.x, self.y))
@@ -37,41 +41,40 @@ class Character:
         self.pos_x = new_x
         self.pos_y = new_y
         self.level.map[self.pos_y][self.pos_x] = 'M'
+        sound_mac_move = pygame.mixer.Sound(mac_step)
+        sound_mac_move.play()
 
     def get_object(self, x, y):
         """ The character gets an object """
+        sound_mac_getobject = pygame.mixer.Sound(mac_getobject)
         if self.level.map[y][x] in "E":
             self.items.append("E")
-        if self.level.map[y][x] in "T":
+            sound_mac_getobject.play()
+        elif self.level.map[y][x] in "T":
             self.items.append("T")
-        if self.level.map[y][x] in "N":
+            sound_mac_getobject.play()
+        elif self.level.map[y][x] in "N":
             self.items.append("N")
-
-        print(self.items)
-        """if self.level.map[y][x] in ["E", "N", "T"]:
-            self.items += 1
-            print("Your inventory contains", self.items, " objects.")"""
+            sound_mac_getobject.play()
 
     def mac_out(self, x, y):
         """ McGyver gets out if he finds the exit"""
         if self.level.map[y][x] == "G":
             if len(self.items) >= 3:
-                print("You have made a syringe to asleep the guardian")
-                print("Well done !! You are free !!")
-                self.game_over()
-                return True
+                self.win = True
             else:
-                return False
+                sound_mac_killed = pygame.mixer.Sound(guardian_fire)
+                sound_mac_killed.play()
+                self.end_game = True
 
-    def game_over(self):
-        answer = str(input("Do you want to play again? y or n :"))
-        answer.lower()
-        if answer == 'y':
-            self.end_game = False
-        elif answer == 'n':
-            self.end_game = True
-        else:
-            print(" Wrong answer")
-            self.game_over()
+    def game_over(self, window):
+        image_game_over = pygame.image.load(out_mac).convert()
+        window.blit(image_game_over, (0, 0))
+        for event in pygame.event.get():
+            if event.type == QUIT or event.type == KEYDOWN and event.key == K_SPACE:
+                self.finish_game = True
+            elif event.type == KEYDOWN and event.key == K_RETURN:
+                self.start_again = True
+
 
 

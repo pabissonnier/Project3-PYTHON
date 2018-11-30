@@ -1,4 +1,5 @@
 import random
+from character import Character
 from constants import *
 import pygame
 
@@ -28,5 +29,18 @@ class Objects:
 
     def display(self, window):
         window.blit(self.im, (self.x, self.y))
+
+    def rank_in_list(self, character, window):
+        if character.items[0] == self.name:
+            window.blit(self.im, (193, 605))
+        elif character.items[1] == self.name:
+            window.blit(self.im, (257, 605))
+        elif character.items[2] == self.name:
+            window.blit(self.im, (323, 605))
+        if len(character.items) >= 3:
+                syringe = pygame.image.load(image_syringe).convert()
+                window.blit(syringe, (433, 605))
+
+
 
 
