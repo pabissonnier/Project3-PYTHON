@@ -10,9 +10,14 @@ from pygame.locals import *
 
 
 def main():
+    """ Main function """
+
     game_activated = True
+
     while game_activated:
+        """ Main loop containing 'Welcome loop', ' Instruction loop' and 'Game loop' """
         pygame.time.Clock().tick(30)
+
         # SCREEN LOADING
         pygame.init()
         screen = pygame.display.set_mode((SPRITES * SPRITE_SIZE, SPRITES * SPRITE_SIZE + 50))
@@ -35,8 +40,6 @@ def main():
 
         # WELCOME LOOP
         while continue_title:
-
-
             sound_mac_theme.play()
 
             for event in pygame.event.get():
@@ -67,7 +70,6 @@ def main():
 
         # INSTRUCTIONS LOOP
         while continue_instructions:
-            #pygame.time.Clock().tick(30)
 
             instructions = pygame.image.load(IMAGE_INSTRUCTIONS).convert()
             screen.blit(instructions, (0, 0))
@@ -87,7 +89,6 @@ def main():
 
         # GAME LOOP
         while continue_game:
-            #pygame.time.Clock().tick(30)
 
             # REFRESH SCREEN
             screen.blit(background, (0, 0))
