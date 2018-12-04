@@ -6,7 +6,6 @@ from character import Character
 from constants import *
 
 import pygame
-from pygame.locals import *
 
 
 def main():
@@ -15,22 +14,43 @@ def main():
     game_activated = True
 
     while game_activated:
-        """ Main loop containing 'Welcome loop', ' Instruction loop' and 'Game loop' """
+
+        """ Main loop containing 'Welcome loop', ' Instruction loop' and 'Game loop.
+        Initialization of all the game elements """
+
         pygame.time.Clock().tick(30)
 
         # SCREEN LOADING
+        level = Level()
         pygame.init()
         screen = pygame.display.set_mode((SPRITES * SPRITE_SIZE, SPRITES * SPRITE_SIZE + 50))
-        icon = pygame.image.load(IMAGE_MCGYVER).convert()
-        pygame.display.set_icon(icon)
-        pygame.display.set_caption(TITLE_WELCOME)
+        level.screen_loading()
 
         # MUSIC LOADING
         sound_mac_theme = pygame.mixer.Sound(MAC_THEME)
+        music_win = pygame.mixer.Sound(MAC_WIN)
 
-        # WELCOME PAGE LOADING
+        # MAP IS CREATED
+        background = pygame.image.load(IMAGE_BACKGROUND).convert()
+
+        # CHARACTERS ARE CREATED
+        mcgyver = Character(0, 1, IMAGE_MCGYVER, level)
+        guardian = Character(14, 13, IMAGE_GUARDIAN, level)
+
+        # OBJECTS ARE CREATED
+        needle = Objects('N', IMAGE_NEEDLE, level)
+        ether = Objects('E', IMAGE_ETHER, level)
+        tube = Objects('T', IMAGE_TUBE, level)
+
+        # WELCOME PAGE LOADING AND SHOWING
         welcome = pygame.image.load(WELCOME_MAC).convert()
         screen.blit(welcome, (0, 0))
+
+        # INSTRUCTION PAGE LOADING
+        instructions = pygame.image.load(IMAGE_INSTRUCTIONS).convert()
+
+        # INVENTORY AT THE BOTTOM OF THE SCREEN LOADING
+        inventory = pygame.image.load(IMAGE_INVENTORY).convert()
 
         pygame.display.flip()
 
@@ -40,117 +60,61 @@ def main():
 
         # WELCOME LOOP
         while continue_title:
+
             sound_mac_theme.play()
 
-            for event in pygame.event.get():
-                if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE)\
-                        or (event.type == KEYDOWN and event.key == K_SPACE):
-                    pygame.quit()
-                    exit()
+            if level.player_decision():
+                continue_title = False
+            elif level.player_decision() is False:
+                pygame.quit()
+                exit()
 
-                elif event.type == KEYDOWN and event.key == K_RETURN:
-                    continue_title = False
-                    sound_mac_theme.stop()
+                level.map_generator()
 
-                    # MAP IS CREATED
-                    level = Level()
-                    background = pygame.image.load(IMAGE_BACKGROUND).convert()
-                    level.map_generator()
-
-                    # CHARACTERS ARE CREATED
-                    mcgyver = Character(0, 1, IMAGE_MCGYVER, level)
-                    guardian = Character(14, 13, IMAGE_GUARDIAN, level)
-
-                    # OBJECTS ARE CREATED
-                    needle = Objects('N', IMAGE_NEEDLE, level)
-                    ether = Objects('E', IMAGE_ETHER, level)
-                    tube = Objects('T', IMAGE_TUBE, level)
-
-                    pygame.display.flip()
+                pygame.display.flip()
 
         # INSTRUCTIONS LOOP
         while continue_instructions:
-
-            instructions = pygame.image.load(IMAGE_INSTRUCTIONS).convert()
+            sound_mac_theme.stop()
             screen.blit(instructions, (0, 0))
-
-            inventory = pygame.image.load(IMAGE_INVENTORY).convert()
             screen.blit(inventory, (0, 600))
 
+            if level.player_decision():
+                continue_instructions = False
+            elif level.player_decision() is False:
+                pygame.quit()
+                exit()
+
             pygame.display.flip()
-
-            for event in pygame.event.get():
-                if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE or event.type == KEYDOWN and event.key == K_SPACE:
-                    pygame.quit()
-                    exit()
-
-                elif event.type == KEYDOWN and event.key == K_RETURN:
-                    continue_instructions = False
 
         # GAME LOOP
         while continue_game:
 
-            # REFRESH SCREEN
+            # Displaying map and refreshing screen
             screen.blit(background, (0, 0))
             level.map_draw(screen)
-
             screen.blit(mcgyver.visual, (mcgyver.pos_x * SPRITE_SIZE, mcgyver.pos_y * SPRITE_SIZE))
             screen.blit(guardian.visual, (guardian.pos_x * SPRITE_SIZE, guardian.pos_y * SPRITE_SIZE))
 
-            for line in level.map:
-                for case in line:
-                    if "N" in case:
-                        screen.blit(needle.im, (needle.obj_x * SPRITE_SIZE, needle.obj_y * SPRITE_SIZE))
-                    elif "T" in case:
-                        screen.blit(tube.im, (tube.obj_x * SPRITE_SIZE, tube.obj_y * SPRITE_SIZE))
-                    elif "E" in case:
-                        screen.blit(ether.im, (ether.obj_x * SPRITE_SIZE, ether.obj_y * SPRITE_SIZE))
+            # Displaying objects images for each objects position
+            ether.displaying_objects(level, screen)
+            tube.displaying_objects(level, screen)
+            needle.displaying_objects(level, screen)
 
             # Games actions
-            for event in pygame.event.get():
-                if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
-                    continue_game = False
+            mcgyver.is_moving()
+            if mcgyver.is_moving() is False:
+                continue_game = False
 
-                elif event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        continue_game = False
-                    elif event.key == K_RIGHT:
-                        mcgyver.move("right")
-                    elif event.key == K_DOWN:
-                        mcgyver.move("down")
-                    elif event.key == K_LEFT:
-                        mcgyver.move("left")
-                    elif event.key == K_UP:
-                        mcgyver.move("up")
-                    else:
-                        print("Invalid key")
+            # Inventory displaying
+            ether.display_in_inventory(mcgyver, screen)
+            tube.display_in_inventory(mcgyver, screen)
+            needle.display_in_inventory(mcgyver, screen)
 
-            # INVENTORY DISPLAYING
-            if ether.name in mcgyver.items:
-                ether.rank_in_list(mcgyver, screen)
-            if tube.name in mcgyver.items:
-                tube.rank_in_list(mcgyver, screen)
-            if needle.name in mcgyver.items:
-                needle.rank_in_list(mcgyver, screen)
-
-            # WINS OR DIES
-            if mcgyver.win:
-                mcgyver.game_over(screen)
-                music_win = pygame.mixer.Sound(MAC_WIN)
-                music_win.play()
-                if mcgyver.finish_game:
-                    pygame.quit()  # Message d'erreur
-                elif mcgyver.start_again:
-                    music_win.stop()
-                    continue_game = False
-            elif mcgyver.end_game:
-                macgameover = pygame.image.load(MAC_GAMEOVER).convert()
-                screen.blit(macgameover, (0, 0))
-                for event in pygame.event.get():
-                    if event.type == QUIT or event.type == KEYDOWN and event.key == K_SPACE:
-                        pygame.quit()
-                    elif event.type == KEYDOWN and event.key == K_RETURN:
-                        continue_game = False
+            # Macgyver wins or loses
+            mcgyver.wins_or_not(screen , music_win, level)
+            if mcgyver.wins_or_not(screen , music_win, level) is False:
+                continue_game = False
 
             pygame.display.flip()
 

@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from constants import *
+from level import Level
 
 
 class Character:
@@ -20,6 +21,25 @@ class Character:
 
     def display(self, window):
         window.blit(self.visual, (self.x, self.y))
+
+    def is_moving(self):
+        for event in pygame.event.get():
+            if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+                return False
+
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    return False
+                elif event.key == K_RIGHT:
+                    self.move("right")
+                elif event.key == K_DOWN:
+                    self.move("down")
+                elif event.key == K_LEFT:
+                    self.move("left")
+                elif event.key == K_UP:
+                    self.move("up")
+                else:
+                    print("Invalid key")
 
     def move(self, direction):
         """We establish the direction """
@@ -76,5 +96,21 @@ class Character:
             elif event.type == KEYDOWN and event.key == K_RETURN:
                 self.start_again = True
 
-
+    def wins_or_not(self, window, music_win, maze):
+        if self.win:
+            self.game_over(window)
+            music_win.play()
+            if self.finish_game:
+                pygame.quit()
+            elif self.start_again:
+                music_win.stop()
+                return False
+        elif self.end_game:
+            macgameover = pygame.image.load(MAC_GAMEOVER).convert()
+            window.blit(macgameover, (0, 0))
+            if maze.player_decision():
+                return False
+            elif maze.player_decision() is False:
+                pygame.quit()
+                exit()
 

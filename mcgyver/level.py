@@ -1,11 +1,25 @@
 from constants import *
 import pygame
+from pygame.locals import *
 
 
 class Level:
     def __init__(self):
         self.file = "file_map.txt"
         self.map = self.map_generator()
+
+    def screen_loading(self):
+        icon = pygame.image.load(IMAGE_MCGYVER).convert()
+        pygame.display.set_icon(icon)
+        pygame.display.set_caption(TITLE_WELCOME)
+
+    def player_decision(self):
+        for event in pygame.event.get():
+            if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE) \
+                    or (event.type == KEYDOWN and event.key == K_SPACE):
+                return False
+            elif event.type == KEYDOWN and event.key == K_RETURN:
+                return True
 
     def map_generator(self):
         """ Loading map from file and put it into a double list """
