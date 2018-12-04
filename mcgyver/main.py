@@ -51,7 +51,7 @@ def main():
                     sound_mac_theme.stop()
 
                     # MAP IS CREATED
-                      level = Level()
+                    level = Level()
                     background = pygame.image.load(image_background).convert()
                     level.map_generator()
 
