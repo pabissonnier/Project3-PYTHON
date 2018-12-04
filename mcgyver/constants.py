@@ -12,15 +12,15 @@ image_tube = "ressource/tube_plastique.png"
 image_syringe = "ressource/seringue.png"
 
 # Values
-sprites = 15
+SPRITES = 15
 sprite_size = 40
 
 # Sounds
-mac_theme = "ressource/music/Mac_music.wav"
+mac_theme = "ressource/music/home_music.wav"
+mac_win = "ressource/music/Mac_music.wav"
 mac_getobject = "ressource/music/mc_getobject.wav"
 guardian_fire = "ressource/music/guardian_fire.wav"
 mac_step = "ressource/music/mac_step.wav"
-
 
 # Other
 title_welcome = "Help McGyver to escape the labyrinth !"
