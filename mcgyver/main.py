@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# coding: utf-8
 
 from level import Level
 from objects import Objects
@@ -13,19 +12,19 @@ from pygame.locals import *
 def main():
     game_activated = True
     while game_activated:
-
+        pygame.time.Clock().tick(30)
         # SCREEN LOADING
         pygame.init()
-        screen = pygame.display.set_mode((SPRITES * sprite_size, SPRITES * sprite_size + 50))
-        icon = pygame.image.load(image_mcgyver).convert()
+        screen = pygame.display.set_mode((SPRITES * SPRITE_SIZE, SPRITES * SPRITE_SIZE + 50))
+        icon = pygame.image.load(IMAGE_MCGYVER).convert()
         pygame.display.set_icon(icon)
-        pygame.display.set_caption(title_welcome)
+        pygame.display.set_caption(TITLE_WELCOME)
 
         # MUSIC LOADING
-        sound_mac_theme = pygame.mixer.Sound(mac_theme)
+        sound_mac_theme = pygame.mixer.Sound(MAC_THEME)
 
         # WELCOME PAGE LOADING
-        welcome = pygame.image.load(welcome_mac).convert()
+        welcome = pygame.image.load(WELCOME_MAC).convert()
         screen.blit(welcome, (0, 0))
 
         pygame.display.flip()
@@ -36,7 +35,7 @@ def main():
 
         # WELCOME LOOP
         while continue_title:
-            pygame.time.Clock().tick(30)
+
 
             sound_mac_theme.play()
 
@@ -52,28 +51,28 @@ def main():
 
                     # MAP IS CREATED
                     level = Level()
-                    background = pygame.image.load(image_background).convert()
+                    background = pygame.image.load(IMAGE_BACKGROUND).convert()
                     level.map_generator()
 
                     # CHARACTERS ARE CREATED
-                    mcgyver = Character(0, 1, image_mcgyver, level)
-                    guardian = Character(14, 13, image_guardian, level)
+                    mcgyver = Character(0, 1, IMAGE_MCGYVER, level)
+                    guardian = Character(14, 13, IMAGE_GUARDIAN, level)
 
                     # OBJECTS ARE CREATED
-                    needle = Objects('N', image_needle, level)
-                    ether = Objects('E', image_ether, level)
-                    tube = Objects('T', image_tube, level)
+                    needle = Objects('N', IMAGE_NEEDLE, level)
+                    ether = Objects('E', IMAGE_ETHER, level)
+                    tube = Objects('T', IMAGE_TUBE, level)
 
                     pygame.display.flip()
 
         # INSTRUCTIONS LOOP
         while continue_instructions:
-            pygame.time.Clock().tick(30)
+            #pygame.time.Clock().tick(30)
 
-            instructions = pygame.image.load(image_instructions).convert()
+            instructions = pygame.image.load(IMAGE_INSTRUCTIONS).convert()
             screen.blit(instructions, (0, 0))
 
-            inventory = pygame.image.load(image_inventory).convert()
+            inventory = pygame.image.load(IMAGE_INVENTORY).convert()
             screen.blit(inventory, (0, 600))
 
             pygame.display.flip()
@@ -88,23 +87,23 @@ def main():
 
         # GAME LOOP
         while continue_game:
-            pygame.time.Clock().tick(30)
+            #pygame.time.Clock().tick(30)
 
             # REFRESH SCREEN
             screen.blit(background, (0, 0))
             level.map_draw(screen)
 
-            screen.blit(mcgyver.visual, (mcgyver.pos_x * sprite_size, mcgyver.pos_y * sprite_size))
-            screen.blit(guardian.visual, (guardian.pos_x * sprite_size, guardian.pos_y * sprite_size))
+            screen.blit(mcgyver.visual, (mcgyver.pos_x * SPRITE_SIZE, mcgyver.pos_y * SPRITE_SIZE))
+            screen.blit(guardian.visual, (guardian.pos_x * SPRITE_SIZE, guardian.pos_y * SPRITE_SIZE))
 
             for line in level.map:
                 for case in line:
                     if "N" in case:
-                        screen.blit(needle.im, (needle.obj_x * sprite_size, needle.obj_y * sprite_size))
+                        screen.blit(needle.im, (needle.obj_x * SPRITE_SIZE, needle.obj_y * SPRITE_SIZE))
                     elif "T" in case:
-                        screen.blit(tube.im, (tube.obj_x * sprite_size, tube.obj_y * sprite_size))
+                        screen.blit(tube.im, (tube.obj_x * SPRITE_SIZE, tube.obj_y * SPRITE_SIZE))
                     elif "E" in case:
-                        screen.blit(ether.im, (ether.obj_x * sprite_size, ether.obj_y * sprite_size))
+                        screen.blit(ether.im, (ether.obj_x * SPRITE_SIZE, ether.obj_y * SPRITE_SIZE))
 
             # Games actions
             for event in pygame.event.get():
@@ -128,15 +127,15 @@ def main():
             # INVENTORY DISPLAYING
             if ether.name in mcgyver.items:
                 ether.rank_in_list(mcgyver, screen)
-            elif tube.name in mcgyver.items:
+            if tube.name in mcgyver.items:
                 tube.rank_in_list(mcgyver, screen)
-            elif needle.name in mcgyver.items:
+            if needle.name in mcgyver.items:
                 needle.rank_in_list(mcgyver, screen)
 
             # WINS OR DIES
             if mcgyver.win:
                 mcgyver.game_over(screen)
-                music_win = pygame.mixer.Sound(mac_win)
+                music_win = pygame.mixer.Sound(MAC_WIN)
                 music_win.play()
                 if mcgyver.finish_game:
                     pygame.quit()  # Message d'erreur
@@ -144,7 +143,7 @@ def main():
                     music_win.stop()
                     continue_game = False
             elif mcgyver.end_game:
-                macgameover = pygame.image.load(mac_gameover).convert()
+                macgameover = pygame.image.load(MAC_GAMEOVER).convert()
                 screen.blit(macgameover, (0, 0))
                 for event in pygame.event.get():
                     if event.type == QUIT or event.type == KEYDOWN and event.key == K_SPACE:

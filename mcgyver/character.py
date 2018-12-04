@@ -8,8 +8,8 @@ class Character:
     def __init__(self, ini_x, ini_y, image, labyrinth):
         self.pos_x = ini_x
         self.pos_y = ini_y
-        self.x = self.pos_x * sprite_size
-        self.y = self.pos_y * sprite_size
+        self.x = self.pos_x * SPRITE_SIZE
+        self.y = self.pos_y * SPRITE_SIZE
         self.level = labyrinth
         self.items = []
         self.visual = pygame.image.load(image).convert_alpha()
@@ -41,12 +41,12 @@ class Character:
         self.pos_x = new_x
         self.pos_y = new_y
         self.level.map[self.pos_y][self.pos_x] = 'M'
-        sound_mac_move = pygame.mixer.Sound(mac_step)
+        sound_mac_move = pygame.mixer.Sound(MAC_STEP)
         sound_mac_move.play()
 
     def get_object(self, x, y):
         """ The character gets an object """
-        sound_mac_getobject = pygame.mixer.Sound(mac_getobject)
+        sound_mac_getobject = pygame.mixer.Sound(MAC_GETOBJECT)
         if self.level.map[y][x] in "E":
             self.items.append("E")
             sound_mac_getobject.play()
@@ -63,12 +63,12 @@ class Character:
             if len(self.items) >= 3:
                 self.win = True
             else:
-                sound_mac_killed = pygame.mixer.Sound(guardian_fire)
+                sound_mac_killed = pygame.mixer.Sound(GUARDIAN_FIRE)
                 sound_mac_killed.play()
                 self.end_game = True
 
     def game_over(self, window):
-        image_game_over = pygame.image.load(out_mac).convert()
+        image_game_over = pygame.image.load(OUT_MAC).convert()
         window.blit(image_game_over, (0, 0))
         for event in pygame.event.get():
             if event.type == QUIT or event.type == KEYDOWN and event.key == K_SPACE:

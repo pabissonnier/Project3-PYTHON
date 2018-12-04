@@ -27,13 +27,13 @@ class Level:
         return True
 
     def map_draw(self, screen):
-        brick = pygame.image.load(image_brick)
+        brick = pygame.image.load(IMAGE_BRICK).convert()
         num_line = 0
         for line in self.map:
             num_case = 0
             for sprite in line:
-                x = num_case * sprite_size
-                y = num_line * sprite_size
+                x = num_case * SPRITE_SIZE
+                y = num_line * SPRITE_SIZE
                 if sprite == 'X':
                     screen.blit(brick, (x, y))
                 num_case += 1

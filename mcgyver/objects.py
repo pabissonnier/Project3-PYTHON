@@ -10,8 +10,8 @@ class Objects:
         self.level = labyrinth
         self.im = pygame.image.load(image).convert_alpha()
         self.obj_x, self.obj_y = self.rand_position()
-        self.x = self.obj_x * sprite_size
-        self.y = self.obj_y * sprite_size
+        self.x = self.obj_x * SPRITE_SIZE
+        self.y = self.obj_y * SPRITE_SIZE
 
     def rand_position(self):
         """ Randomly placing the objects """
@@ -37,9 +37,7 @@ class Objects:
         elif character.items[2] == self.name:
             window.blit(self.im, (323, 605))
         if len(character.items) >= 3:
-                syringe = pygame.image.load(image_syringe).convert()
+                syringe = pygame.image.load(IMAGE_SYRINGE).convert()
                 window.blit(syringe, (433, 605))
-
-
 
 
