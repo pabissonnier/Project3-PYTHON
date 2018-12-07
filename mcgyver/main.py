@@ -35,7 +35,7 @@ def main():
         # MAP IS CREATED
         background = pygame.image.load(IMAGE_BACKGROUND).convert()
 
-        # CHARACTERS ARE CREATEDpylin
+        # CHARACTERS ARE CREATED
         mcgyver = Character(0, 1, IMAGE_MCGYVER, level)
         guardian = Character(14, 13, IMAGE_GUARDIAN, level)
 
@@ -67,13 +67,10 @@ def main():
 
             if level.player_decision():
                 continue_title = False
-            elif level.player_decision() is False:
-                pygame.quit()
-                exit()
 
-                level.map_generator()
+            level.map_generator()
 
-                pygame.display.flip()
+            pygame.display.flip()
 
         # INSTRUCTIONS LOOP
         while continue_instructions:
@@ -83,9 +80,6 @@ def main():
 
             if level.player_decision():
                 continue_instructions = False
-            elif level.player_decision() is False:
-                pygame.quit()
-                exit()
 
             pygame.display.flip()
 

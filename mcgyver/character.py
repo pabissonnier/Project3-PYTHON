@@ -25,7 +25,8 @@ class Character:
         for event in pygame.event.get():
             if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE \
                     or event.type == KEYDOWN and event.key == K_SPACE:
-                return False
+                pygame.quit()
+                exit()
 
             elif event.type == KEYDOWN:
                 if event.key == K_RIGHT:
@@ -91,8 +92,10 @@ class Character:
         image_game_over = pygame.image.load(OUT_MAC).convert()
         window.blit(image_game_over, (0, 0))
         for event in pygame.event.get():
-            if event.type == QUIT or event.type == KEYDOWN and event.key == K_SPACE:
-                self.finish_game = True
+            if event.type == QUIT or event.type == KEYDOWN and event.key == K_SPACE \
+                    or event.type == KEYDOWN and event.key == K_SPACE:
+                pygame.quit()
+                exit()
             elif event.type == KEYDOWN and event.key == K_RETURN:
                 self.start_again = True
 
@@ -101,10 +104,7 @@ class Character:
         if self.win:
             self.mac_wins(window)
             music_win.play()
-            if self.finish_game:
-                pygame.quit()
-                exit()
-            elif self.start_again:
+            if self.start_again:
                 music_win.stop()
                 return False
         elif self.end_game:

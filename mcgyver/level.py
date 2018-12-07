@@ -15,7 +15,8 @@ class Level:
         for event in pygame.event.get():
             if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE \
                     or event.type == KEYDOWN and event.key == K_SPACE:
-                return False
+                pygame.quit()
+                exit()
             elif event.type == KEYDOWN and event.key == K_RETURN:
                 return True
 
