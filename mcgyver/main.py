@@ -15,7 +15,7 @@ def main():
 
     while game_activated:
 
-        """ Main loop containing 'Welcome loop', ' Instruction loop' and 'Game loop.
+        """ Main loop containing 'Welcome loop', ' Instruction loop' and 'Game loop'.
         Initialization of all the game elements """
 
         pygame.time.Clock().tick(30)
@@ -24,7 +24,9 @@ def main():
         level = Level()
         pygame.init()
         screen = pygame.display.set_mode((SPRITES * SPRITE_SIZE, SPRITES * SPRITE_SIZE + 50))
-        level.screen_loading()
+        icon = pygame.image.load(IMAGE_MCGYVER).convert()
+        pygame.display.set_icon(icon)
+        pygame.display.set_caption(TITLE_WELCOME)
 
         # MUSIC LOADING
         sound_mac_theme = pygame.mixer.Sound(MAC_THEME)
@@ -33,7 +35,7 @@ def main():
         # MAP IS CREATED
         background = pygame.image.load(IMAGE_BACKGROUND).convert()
 
-        # CHARACTERS ARE CREATED
+        # CHARACTERS ARE CREATEDpylin
         mcgyver = Character(0, 1, IMAGE_MCGYVER, level)
         guardian = Character(14, 13, IMAGE_GUARDIAN, level)
 
@@ -111,9 +113,9 @@ def main():
             tube.display_in_inventory(mcgyver, screen)
             needle.display_in_inventory(mcgyver, screen)
 
-            # Macgyver wins or loses
-            mcgyver.wins_or_not(screen , music_win, level)
-            if mcgyver.wins_or_not(screen , music_win, level) is False:
+            # MacGyver wins or loses
+            mcgyver.wins_or_not(screen, music_win, level)
+            if mcgyver.wins_or_not(screen, music_win, level) is False:
                 continue_game = False
 
             pygame.display.flip()

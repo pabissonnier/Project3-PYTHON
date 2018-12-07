@@ -1,10 +1,10 @@
 import random
-from constants import *
+from constants import SPRITE_SIZE, IMAGE_SYRINGE
 import pygame
 
 
 class Objects:
-
+    """ Class for objects which will be used to get out """
     def __init__(self, name, image, labyrinth):
         self.name = name
         self.level = labyrinth
@@ -27,29 +27,21 @@ class Objects:
             return self.rand_position()
 
     def displaying_objects(self, level, screen):
+        """ Show images of objects in the maze """
         for line in level.map:
             for case in line:
                 if self.name in case:
                     screen.blit(self.im, (self.obj_x * SPRITE_SIZE, self.obj_y * SPRITE_SIZE))
-                """elif "T" in case:
-                    screen.blit(tube.im, (tube.obj_x * SPRITE_SIZE, tube.obj_y * SPRITE_SIZE))
-                elif "E" in case:
-                    screen.blit(ether.im, (ether.obj_x * SPRITE_SIZE, ether.obj_y * SPRITE_SIZE))"""
-
-    def display(self, window):
-        window.blit(self.im, (self.x, self.y))
-
-    def rank_in_list(self, character, window):
-        if character.items[0] == self.name:
-            window.blit(self.im, (193, 605))
-        elif character.items[1] == self.name:
-            window.blit(self.im, (257, 605))
-        elif character.items[2] == self.name:
-            window.blit(self.im, (323, 605))
-        if len(character.items) >= 3:
-                syringe = pygame.image.load(IMAGE_SYRINGE).convert()
-                window.blit(syringe, (433, 605))
 
     def display_in_inventory(self, character, window):
+        """ Function to show objects in the inventory"""
         if self.name in character.items:
-            self.rank_in_list(character, window)
+            if character.items[0] == self.name:
+                window.blit(self.im, (193, 605))
+            elif character.items[1] == self.name:
+                window.blit(self.im, (257, 605))
+            elif character.items[2] == self.name:
+                window.blit(self.im, (323, 605))
+            if len(character.items) >= 3:
+                syringe = pygame.image.load(IMAGE_SYRINGE).convert()
+                window.blit(syringe, (433, 605))
