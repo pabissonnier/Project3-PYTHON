@@ -34,6 +34,7 @@ def main():
 
         # MAP IS CREATED
         background = pygame.image.load(IMAGE_BACKGROUND).convert()
+        level.map_generator()
 
         # CHARACTERS ARE CREATED
         mcgyver = Character(0, 1, IMAGE_MCGYVER, level)
@@ -46,7 +47,6 @@ def main():
 
         # WELCOME PAGE LOADING AND SHOWING
         welcome = pygame.image.load(WELCOME_MAC).convert()
-        screen.blit(welcome, (0, 0))
 
         # INSTRUCTION PAGE LOADING
         instructions = pygame.image.load(IMAGE_INSTRUCTIONS).convert()
@@ -62,13 +62,11 @@ def main():
 
         # WELCOME LOOP
         while continue_title:
-
             sound_mac_theme.play()
+            screen.blit(welcome, (0, 0))
 
             if level.player_decision():
                 continue_title = False
-
-            level.map_generator()
 
             pygame.display.flip()
 
